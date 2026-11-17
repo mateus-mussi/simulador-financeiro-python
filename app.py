@@ -30,48 +30,84 @@ app_dash = dash.Dash(
 )
 
 def DadosInvestimento(CapitalInicial, DataInicio, DataFim, Frequencia, Risco, InvestimentoMensal):
-    # Obtemos as taxas da SELIC e CDI usando a API do BCB
-    Taxas = sgs.get({'SELIC': 11, 'CDI': 12}, start=DataInicio, end=DataFim)
-    
-    if Risco == 'Baixo':
-        Taxa = Taxas['SELIC']
-    elif Risco == 'Médio':
-        Percentual_CDI = 1.20
-        Taxa = Taxas['CDI'] * Percentual_CDI
-    elif Risco == 'Alto':
-        BitcoinData = yf.download('BTC-USD', start=DataInicio, end=DataFim)
-        BitcoinData['Variação'] = BitcoinData['Adj Close'].pct_change().fillna(0) * 100
-        Taxa = BitcoinData['Variação']
-    elif Risco == 'CDI (110%)':
-        Percentual_CDI = 1.10
-        Taxa = Taxas['CDI'] * Percentual_CDI
+    """Simula saldo nominal com taxas diárias e aportes mensais.
+
+    Aportes ocorrem em cada aniversário mensal após a data inicial. A escolha
+    do gráfico (diário/mensal/anual) não altera os cálculos.
+    Retorno: (série para o gráfico, total aportado, lucro nominal).
+    """
+    inicio = pd.Timestamp(DataInicio).normalize()
+    fim = pd.Timestamp(DataFim).normalize()
+    if inicio >= fim:
+        raise ValueError("A data final deve ser posterior à data inicial.")
+    if CapitalInicial is None or InvestimentoMensal is None:
+        raise ValueError("Informe o capital inicial e o aporte mensal.")
+    capital_inicial = float(CapitalInicial)
+    aporte = float(InvestimentoMensal)
+    if not all(pd.notna(x) and x >= 0 and x != float("inf") for x in (capital_inicial, aporte)):
+        raise ValueError("Capital inicial e aporte devem ser valores finitos não negativos.")
+    if Frequencia not in ("D", "M", "Y"):
+        raise ValueError("Frequência inválida.")
+
+    if Risco in ("Baixo", "Médio", "CDI (110%)"):
+        taxas = sgs.get({"SELIC": 11, "CDI": 12}, start=inicio, end=fim)
+        if taxas is None or taxas.empty:
+            raise ValueError("Não foram encontradas taxas SELIC/CDI para o período.")
+        coluna = "SELIC" if Risco == "Baixo" else "CDI"
+        multiplicador = 1.0 if Risco == "Baixo" else (1.2 if Risco == "Médio" else 1.1)
+        # BCB SGS 11/12: percentual diário; não é taxa mensal.
+        variacoes = pd.to_numeric(taxas[coluna], errors="coerce").dropna() / 100 * multiplicador
+    elif Risco == "Alto":
+        historico = yf.download(
+            "BTC-USD", start=inicio, end=fim + pd.Timedelta(days=1),
+            auto_adjust=True, progress=False
+        )
+        if historico is None or historico.empty:
+            raise ValueError("Não foram encontradas cotações de Bitcoin para o período.")
+        # yfinance pode retornar colunas MultiIndex mesmo para um único ticker.
+        fechamento = historico["Close"]
+        if isinstance(fechamento, pd.DataFrame):
+            fechamento = fechamento.iloc[:, 0]
+        fechamento = pd.to_numeric(fechamento, errors="coerce").dropna()
+        if fechamento.empty:
+            raise ValueError("Não foram encontradas cotações válidas de Bitcoin.")
+        variacoes = fechamento.pct_change().fillna(0.0)
     else:
         raise ValueError("Tipo de investimento inválido.")
-    
-    Multiplicador = 1 + (Taxa / 100)
-    CapitalAcumulado = pd.Series([CapitalInicial], index=[DataInicio])
-    ContadorAportes = 0
 
-    for i in range(1, len(Taxa)):
-        if CapitalAcumulado.index[-1] >= DataFim:
+    variacoes.index = pd.DatetimeIndex(pd.to_datetime(variacoes.index)).tz_localize(None).normalize()
+    variacoes = variacoes[~variacoes.index.duplicated(keep="last")].sort_index()
+    dias = pd.date_range(inicio, fim, freq="D")
+    variacoes = variacoes.reindex(dias, fill_value=0.0)
+
+    meses = 1
+    datas_aportes = set()
+    while True:
+        data_aporte = inicio + pd.DateOffset(months=meses)
+        if data_aporte > fim:
             break
-        NovoCapital = CapitalAcumulado.iloc[i-1] * (1 + Taxa.iloc[i-1] / 100) + InvestimentoMensal
-        CapitalAcumulado = pd.concat([CapitalAcumulado, pd.Series([NovoCapital], index=[CapitalAcumulado.index[-1] + pd.DateOffset(months=1)])])
-        ContadorAportes += 1
+        datas_aportes.add(data_aporte)
+        meses += 1
 
-    if Risco == 'CDI (110%)' and CapitalAcumulado.index[-1] < DataFim:
-        UltimaTaxa = Taxa.iloc[-1]
-        while CapitalAcumulado.index[-1] < DataFim:
-            NovoCapital = CapitalAcumulado.iloc[-1] * (1 + UltimaTaxa / 100) + InvestimentoMensal
-            CapitalAcumulado = pd.concat([CapitalAcumulado, pd.Series([NovoCapital], index=[CapitalAcumulado.index[-1] + pd.DateOffset(months=1)])])
-            ContadorAportes += 1
+    saldo = capital_inicial
+    aportes_realizados = 0
+    trajetoria = {inicio: saldo}
+    for dia in dias[1:]:
+        saldo *= 1.0 + float(variacoes.loc[dia])
+        if dia in datas_aportes:
+            saldo += aporte
+            aportes_realizados += 1
+        trajetoria[dia] = saldo
 
-    CapitalComFrequenciaEscolhida = CapitalAcumulado.resample(Frequencia).last().dropna()
-        
-    TotalInvestido = CapitalInicial + InvestimentoMensal * ContadorAportes
-    Lucro = CapitalComFrequenciaEscolhida.iloc[-1] - TotalInvestido
-
-    return CapitalComFrequenciaEscolhida, TotalInvestido, Lucro
+    serie = pd.Series(trajetoria, dtype="float64")
+    if Frequencia == "D":
+        exibicao = serie
+    else:
+        periodo = "M" if Frequencia == "M" else "Y"
+        exibicao = serie.groupby(serie.index.to_period(periodo)).tail(1)
+    total_investido = capital_inicial + aporte * aportes_realizados
+    lucro_nominal = saldo - total_investido
+    return exibicao, total_investido, lucro_nominal
 
 navbar = html.Nav(
     children=[
@@ -162,17 +198,22 @@ app_dash.layout = html.Div([
     ], fluid=True)  # Aqui você pode usar fluid=True dentro do Container
 ])
 
-def AjustarPorInflacao(Capital, DataFim):
-    # Obter a inflação acumulada até o mês de DataFim
-    IPCA = sgs.get({'IPCA': 433}, start=DataFim, end=DataFim)
-    if IPCA.empty:
-        raise ValueError("Não foi possível obter a inflação para a data fornecida.")
-    
-    Inflacao = IPCA['IPCA'].iloc[0]
-    
-    # Ajuste do capital pela inflação (deduzindo a inflação)
-    CapitalAjustado = Capital - (Capital * Inflacao / 100)
-    return CapitalAjustado, Inflacao
+def AjustarPorInflacao(Capital, DataInicio, DataFim):
+    """Deflaciona o saldo final pela variação composta do IPCA disponível.
+
+    O resultado é o capital final em poder de compra aproximado da data inicial,
+    NÃO o lucro real da aplicação (que exigiria deflacionar cada aporte).
+    """
+    ipca = sgs.get({"IPCA": 433}, start=DataInicio, end=DataFim)
+    if ipca is None or ipca.empty:
+        raise ValueError("Não foram encontrados dados de IPCA para o período.")
+    taxas_mensais = pd.to_numeric(ipca["IPCA"], errors="coerce").dropna()
+    if taxas_mensais.empty:
+        raise ValueError("Não foram encontrados valores válidos de IPCA.")
+    fator = float((1 + taxas_mensais / 100).prod())
+    if fator <= 0:
+        raise ValueError("Índice acumulado de inflação inválido.")
+    return float(Capital) / fator, (fator - 1) * 100
 
 @app_dash.callback(      
     [Output("GraficoLucro", "figure"),
@@ -201,7 +242,7 @@ def AtualizarGraficoETabela(CapitalInicial, InvestimentoMensal, DataInicio, Data
     SerieLucros["Data"] = SerieLucros["Data"].dt.date
     
     # Calcular o Lucro Real ajustado pela inflação
-    LucroReal, Inflacao = AjustarPorInflacao(SerieLucros['LucroAcumulado'].iloc[-1], DataFim)
+    CapitalReal, Inflacao = AjustarPorInflacao(SerieLucros['LucroAcumulado'].iloc[-1], DataInicio, DataFim)
     
     Fig = Px.line(SerieLucros, x="Data", y="LucroAcumulado", title=f"Lucro Acumulado ({TipoRisco} Risco)")
     
@@ -219,8 +260,8 @@ def AtualizarGraficoETabela(CapitalInicial, InvestimentoMensal, DataInicio, Data
         html.H5(f"Total Investido: R$ {TotalInvestido:.2f}", style={'font-weight': 'bold', 'color': 'lightgreen'}),
         html.H5(f"Lucro: R$ {Lucro:.2f}", style={'font-weight': 'bold', 'color': 'orange'}),
         html.H5(f"Total (Investido + Lucro): R$ {TotalInvestido + Lucro:.2f}", style={'font-weight': 'bold', 'color': 'purple'}),
-        html.H5(f"Lucro Real (ajustado pela inflação): R$ {LucroReal:.2f}", style={'font-weight': 'bold', 'color': 'red'}),
-        html.H5(f"Inflação do período: {Inflacao:.2f}%", style={'font-weight': 'bold', 'color': 'white'}),
+        html.H5(f"Capital final ajustado pelo IPCA (aprox.): R$ {CapitalReal:.2f}", style={'font-weight': 'bold', 'color': 'red'}),
+        html.H5(f"IPCA acumulado disponível no período: {Inflacao:.2f}%", style={'font-weight': 'bold', 'color': 'white'}),
     ], style={'margin-top': '20px'})
 
     return Fig, Tabela, Resumo
