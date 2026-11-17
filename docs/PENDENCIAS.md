@@ -5,8 +5,9 @@
 - [x] Conferir a sintaxe de `app.py` e `bd.py`.
 - [ ] Instalar dependências Flask/Dash, python-bcb e yfinance e testar todas as rotas da aplicação.
 - [x] Corrigir a contagem de aportes para independer da frequência de visualização e adicionar teste com dados sintéticos.
-- [ ] Validar a periodicidade e a aplicação das taxas SELIC/CDI, inflação e Bitcoin com dados confiáveis.
-- [ ] Revisar tratamento de erros ao consultar dados financeiros externos.
+- [x] Corrigir o uso das séries diárias SELIC/CDI e compor as variações mensais do IPCA, com testes sintéticos.
+- [ ] Validar os cálculos com séries reais, datas parciais, retornos de Bitcoin e rendimentos líquidos.
+- [ ] Revisar tratamento de erros, limites de período e indisponibilidade das APIs externas.
 - [x] Adicionar gerador de planilha inteiramente fictícia (sem publicar dados pessoais).
 - [x] Adicionar e executar três testes locais do módulo de receitas/despesas.
 - [x] Enviar os cinco recursos visuais da interface e a captura demonstrativa para o GitHub.
