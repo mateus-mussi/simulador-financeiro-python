@@ -13,7 +13,7 @@ Projeto acadêmico em equipe que reúne um **simulador de investimentos**, telas
 
 ## Status de publicação
 
-> **Código-fonte publicado:** os arquivos `app.py`, `bd.py`, `templates/` e `static/css/` já foram enviados ao GitHub. A sintaxe dos dois arquivos Python foi verificada, mas **a execução completa não foi validada**. Ainda precisam ser enviados os recursos gráficos binários e as capturas. O repositório já oferece um **script que gera localmente a planilha fictícia**, sem dados reais. Antes do envio de imagens, revise os direitos de uso.
+> **Código-fonte e recursos visuais publicados:** os arquivos `app.py`, `bd.py`, `templates/`, `static/css/`, as cinco imagens da interface e uma captura demonstrativa estão disponíveis no repositório. A sintaxe dos dois arquivos Python foi verificada, mas **a execução completa não foi validada**. Um script permite gerar localmente a planilha fictícia, sem dados pessoais. Verifique as autorizações de uso das imagens e dos demais recursos compartilhados.
 
 ## Funcionalidades previstas no projeto
 
@@ -83,7 +83,11 @@ Esses três testes passaram na revisão local. Também foram verificados a sinta
 
 ## Demonstração visual
 
-As capturas devem mostrar a aplicação efetivamente executada. O pacote de preparação inclui uma captura estática da página inicial, que **não comprova o funcionamento das integrações financeiras**. As imagens definitivas serão adicionadas à pasta `docs/` após validação. A ausência atual de arquivos de imagem em `static/images/` pode deixar elementos visuais sem carregar.
+**Prévia visual da página inicial (captura demonstrativa):**
+
+![Página inicial do Sistema de Gestão Financeira em Python](docs/pagina-inicial.png)
+
+Os arquivos gráficos originais utilizados pela interface foram publicados em `static/images/`. A captura apresentada é demonstrativa e **não comprova o funcionamento do Flask, Dash ou das integrações financeiras**. Após testar a aplicação em execução, esta imagem poderá ser substituída por uma captura efetiva da interface.
 
 ## Estrutura do projeto
 
@@ -95,7 +99,7 @@ simulador-financeiro-python/
 ├── templates/
 ├── static/
 │   ├── css/
-│   └── images/       # recursos binários ainda a transferir
+│   └── images/       # imagens da interface publicadas
 ├── scripts/
 │   └── criar_holerite_modelo.py
 ├── tests/
