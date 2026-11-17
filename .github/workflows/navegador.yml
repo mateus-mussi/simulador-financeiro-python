@@ -1,0 +1,58 @@
+name: Validação visual do Simulador
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'app.py'
+      - 'bd.py'
+      - 'requirements.txt'
+      - 'templates/**'
+      - 'static/**'
+      - 'scripts/validar_navegador.py'
+      - '.github/workflows/navegador.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  navegador:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Obter código
+        uses: actions/checkout@v4
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+      - name: Instalar dependências
+        run: |
+          python -m pip install -r requirements.txt
+          python -m pip install "playwright>=1.48,<2"
+          python -m playwright install --with-deps chromium
+      - name: Preparar planilha ilustrativa
+        run: python scripts/criar_holerite_modelo.py
+      - name: Iniciar aplicação
+        run: |
+          python app.py > /tmp/simulador.log 2>&1 &
+          for i in $(seq 1 60); do
+            if curl -fsS http://127.0.0.1:5000/ >/dev/null; then exit 0; fi
+            sleep 2
+          done
+          cat /tmp/simulador.log
+          exit 1
+      - name: Testar páginas em Chromium
+        run: python scripts/validar_navegador.py
+      - name: Enviar capturas como evidência
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: capturas-simulador
+          path: artifacts/capturas/
+          if-no-files-found: ignore
+      - name: Exibir logs em caso de erro
+        if: failure()
+        run: cat /tmp/simulador.log || true
