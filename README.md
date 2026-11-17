@@ -1,41 +1,43 @@
 # Simulador Financeiro em Python 📊
 
-Este é um dos projetos que mais quero desenvolver no meu GitHub. Ele começou como um trabalho em equipe e reúne algumas áreas que gosto de estudar: **Python, desenvolvimento web, análise de dados e integração com APIs**.
+Desenvolvi este projeto em equipe para colocar em prática meus estudos de **Python, desenvolvimento web, análise de dados e integração com APIs**.
 
-A proposta é ter um lugar para **simular investimentos, visualizar gráficos, organizar receitas e despesas** e explorar a geração de um holerite demonstrativo.
+A aplicação reúne um simulador de investimentos, gráficos interativos e ferramentas simples de organização financeira em uma interface web.
 
-## 💡 O que o projeto faz
+## 💡 Funcionalidades
 
-| Módulo | O que encontro nele |
+| Módulo | Descrição |
 |---|---|
-| **Simulador de investimentos** | Simulação de valores aplicados, aportes mensais e gráficos de evolução |
-| **Controle de gastos** | Formulário para registrar receitas e despesas por categoria |
-| **Monitoramento** | Resumo das informações preenchidas na sessão |
-| **Holerite** | Geração de uma planilha Excel fictícia, para fins de demonstração |
+| **Investimentos** | Simulação de aplicações com capital inicial, aportes mensais e gráficos de evolução |
+| **Controle de gastos** | Registro de receitas e despesas por categorias |
+| **Monitoramento** | Resumo financeiro com os valores informados |
+| **Holerite** | Geração de uma planilha Excel ilustrativa |
 
-O simulador trabalha com séries de **SELIC, CDI e IPCA** e pode consultar cotações históricas de **Bitcoin**. As consultas dependem de serviços externos. **Os resultados são experimentais e não devem ser utilizados como orientação financeira.**
+O painel de investimentos utiliza indicadores como **SELIC, CDI e IPCA** e permite explorar a evolução histórica do **Bitcoin**.
 
-## 🛠️ Tecnologias que usei
+## 🛠️ Tecnologias
 
-- **Python e Flask** para a aplicação web e suas rotas;
-- **Dash e Plotly** para o painel e os gráficos;
-- **Pandas** para trabalhar com datas e séries financeiras;
-- **python-bcb** para consultar indicadores do Banco Central;
-- **yfinance** para consultar dados históricos de mercado;
-- **openpyxl** para criar e preencher planilhas Excel;
-- **HTML e CSS** para as páginas e os estilos.
+![Python](https://img.shields.io/badge/Python-3776AB?logo=python&logoColor=white)
+![Flask](https://img.shields.io/badge/Flask-000000?logo=flask&logoColor=white)
+![Dash](https://img.shields.io/badge/Dash-008DE4?logo=plotly&logoColor=white)
+![Pandas](https://img.shields.io/badge/Pandas-150458?logo=pandas&logoColor=white)
+![Plotly](https://img.shields.io/badge/Plotly-3F4F75?logo=plotly&logoColor=white)
 
-## 📸 Visual do projeto
+Também utilizei **HTML, CSS, openpyxl, python-bcb e yfinance**.
+
+## 📸 Conheça a interface
 
 ![Página inicial do Simulador Financeiro](docs/pagina-inicial.png)
 
-Esta é uma prévia da página inicial. Também registrei [capturas reais das cinco telas abertas no navegador](https://github.com/mateus-mussi/simulador-financeiro-python/actions/runs/44014061702).
+Além da página inicial, o sistema possui telas de investimentos, holerite, gastos e monitoramento.
 
-## ▶️ Como executar no computador
+[Ver as cinco telas em execução no navegador](https://github.com/mateus-mussi/simulador-financeiro-python/actions/runs/44014061702)
 
-**Requisitos:** Python 3.11, pip e internet para as consultas financeiras.
+## ▶️ Como executar
 
-Clone o repositório e entre na pasta:
+Para rodar o projeto, utilize **Python 3.11** e instale as dependências do repositório.
+
+**1. Clone o projeto e crie um ambiente virtual:**
 
 ```bash
 git clone https://github.com/mateus-mussi/simulador-financeiro-python.git
@@ -43,21 +45,21 @@ cd simulador-financeiro-python
 python -m venv .venv
 ```
 
-Ative o ambiente virtual.
+**2. Ative o ambiente virtual:**
 
-**Windows (PowerShell):**
+No Windows (PowerShell):
 
 ```powershell
 .venv\Scripts\Activate.ps1
 ```
 
-**Linux/macOS:**
+No Linux/macOS:
 
 ```bash
 source .venv/bin/activate
 ```
 
-Instale as dependências, prepare a planilha fictícia e inicie o programa:
+**3. Instale as bibliotecas e inicie a aplicação:**
 
 ```bash
 python -m pip install -r requirements.txt
@@ -65,69 +67,30 @@ python scripts/criar_holerite_modelo.py
 python app.py
 ```
 
-Com o servidor iniciado, acesse:
+Acesse **http://127.0.0.1:5000** para abrir a página inicial ou **http://127.0.0.1:5000/dash/** para entrar diretamente no simulador.
 
-| Página | Endereço local |
-|---|---|
-| Início | [http://127.0.0.1:5000](http://127.0.0.1:5000) |
-| Simulador | [http://127.0.0.1:5000/dash/](http://127.0.0.1:5000/dash/) |
-| Holerite | [http://127.0.0.1:5000/holerite](http://127.0.0.1:5000/holerite) |
-| Gastos | [http://127.0.0.1:5000/gastos](http://127.0.0.1:5000/gastos) |
-| Monitoramento | [http://127.0.0.1:5000/monitoramento](http://127.0.0.1:5000/monitoramento) |
+## 🧪 Testes
 
-O modelo de holerite criado pelo script contém apenas dados fictícios. **Não utilizo esse módulo para emitir documentos trabalhistas oficiais.**
+Incluí testes automatizados para acompanhar o funcionamento das rotas web, dos cálculos, do controle de gastos e da geração de planilhas.
 
-## 🧪 Como estou testando
-
-Quis ir além de publicar os arquivos: comecei a incluir testes para descobrir problemas e evitar que correções anteriores se percam.
-
-Para executar os testes:
+Para executá-los:
 
 ```bash
 python -m unittest discover -s tests -v
 ```
 
-Também configurei o **GitHub Actions**, que instala as dependências e executa automaticamente os testes:
+O projeto também utiliza **GitHub Actions**. Em uma das execuções, foram aprovados **15 testes automatizados**, e as cinco páginas principais foram abertas em um navegador Chromium.
 
-- [Ver os testes do Python, Flask e Dash](https://github.com/mateus-mussi/simulador-financeiro-python/actions/runs/44013703245): **15 testes aprovados**, usando dados financeiros simulados.
-- [Ver a navegação testada no Chromium](https://github.com/mateus-mussi/simulador-financeiro-python/actions/runs/44014061702): as **cinco páginas principais abriram corretamente**, e o navegador gerou capturas de tela.
+[Ver os resultados dos testes](https://github.com/mateus-mussi/simulador-financeiro-python/actions/runs/44013703245)
 
-Os testes utilizam dados financeiros simulados; por isso, não comprovam a precisão dos resultados obtidos com APIs reais.
+## 📈 Sobre os cálculos
 
-## 📈 Como funciona a simulação
+O simulador considera aportes mensais e permite visualizar a evolução do saldo por dia, mês ou ano. Para as simulações de renda fixa, utiliza séries diárias de SELIC e CDI; o IPCA é usado para estimar o valor do saldo final ajustado pela inflação.
 
-Na lógica atual, os aportes entram mensalmente e não mudam quando escolho exibir o gráfico por dia, mês ou ano. As taxas das séries SELIC/CDI são aplicadas nos dias correspondentes, e o IPCA é acumulado por composição.
-
-Alguns detalhes importantes:
-
-- A opção de CDB é **hipotética** e usa um multiplicador do CDI, sem reproduzir impostos, tarifas ou regras de um produto real.
-- A simulação de Bitcoin utiliza variações de preços históricos e não considera custos de negociação.
-- O valor ajustado pelo IPCA representa uma aproximação do poder de compra do saldo final. **Não é o lucro real dos aportes realizados ao longo do tempo.**
-- O controle de despesas ainda guarda os valores apenas temporariamente: **não possui banco de dados persistente**.
-
-## 📁 Organização
-
-```text
-simulador-financeiro-python/
-├── app.py
-├── bd.py
-├── requirements.txt
-├── templates/
-├── static/
-│   ├── css/
-│   └── images/
-├── scripts/
-│   ├── criar_holerite_modelo.py
-│   └── validar_navegador.py
-├── tests/
-│   ├── test_aportes.py
-│   ├── test_bd.py
-│   ├── test_modelo_financeiro.py
-│   └── test_web.py
-├── docs/
-└── README.md
-```
+As simulações são **educativas**. O cenário de CDB é hipotético, e os valores apresentados não incluem todas as condições de investimentos reais, como impostos e tarifas. Os testes automatizados dos cálculos usam dados controlados, enquanto as consultas financeiras dependem de fontes externas.
 
 ## 👥 Desenvolvimento
 
-Este projeto começou como um trabalho em grupo com **Amanda Guimarães**, **Clarice Antezana** e comigo, **Mateus Mussi**. Estou reunindo aqui o código e a documentação do que desenvolvemos.
+Desenvolvi este projeto em grupo com **Amanda Guimarães** e **Clarice Antezana**.
+
+Mantenho o repositório como parte do meu portfólio e da minha experiência com aplicações web em Python.
