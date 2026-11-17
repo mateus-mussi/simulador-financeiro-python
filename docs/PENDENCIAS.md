@@ -5,7 +5,9 @@
 - [x] Conferir a sintaxe de `app.py` e `bd.py`.
 - [x] Configurar workflow de testes com instalação das dependências e testes de fumaça Flask/Dash com APIs simuladas.
 - [x] GitHub Actions aprovado: 15 testes, incluindo rotas Flask/Dash com APIs simuladas (execução 44013703245).
-- [ ] Fazer testes manuais de interface em navegador e com serviços financeiros reais.
+- [x] Executar testes automatizados em Chromium nas cinco telas e arquivar capturas (execução 44014061702).
+- [ ] Realizar inspeção humana das capturas e testar interações completas no navegador.
+- [ ] Testar consultas às APIs financeiras reais e validar os resultados históricos.
 - [x] Corrigir a contagem de aportes para independer da frequência de visualização e adicionar teste com dados sintéticos.
 - [x] Corrigir o uso das séries diárias SELIC/CDI e compor as variações mensais do IPCA, com testes sintéticos.
 - [ ] Validar os cálculos com séries reais, datas parciais, retornos de Bitcoin e rendimentos líquidos.
