@@ -7,4 +7,4 @@
 - [ ] Adicionar capturas reais e atualizadas da aplicação funcionando.
 - [ ] Não publicar planilhas originais, informações pessoais, credenciais ou imagens sem autorização.
 - [ ] Definir licença apropriada com todos os titulares.
-- [ ] Atualizar nome do repositório para `sistema-gestao-financeira-python`, se desejado (feito nas Settings do GitHub).
+- [x] Manter o nome definitivo do repositório como `simulador-financeiro-python`.
