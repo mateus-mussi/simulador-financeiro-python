@@ -81,7 +81,7 @@ python -m unittest discover -s tests -v
 
 Os três testes de receitas/despesas passaram na revisão local. Também foram verificados a sintaxe dos arquivos Python, a estrutura do modelo fictício de holerite e as referências de arquivos estáticos dos templates. Também foram adicionados testes com dados sintéticos para validar a **independência do valor investido em relação à visualização**, a **capitalização das taxas diárias**, os **aportes mensais** e a **composição do IPCA**. O total de 10 testes automatizados locais (3 de despesas, 1 de aportes e 6 financeiros) passou após a correção.
 
-**Limitações restantes:** não foi possível instalar as dependências Flask/Dash, `python-bcb` e `yfinance` neste ambiente para executar a aplicação completa. As rotas web, o consumo de APIs e a exatidão das taxas/periodicidade dos cálculos permanecem sem validação integral.
+**Limitações restantes:** as dependências foram instaladas no GitHub Actions e as rotas principais foram testadas com dados simulados. Ainda faltam testes de navegação real em navegador, das consultas às APIs ao vivo e dos resultados financeiros com séries históricas reais.
 
 ### Premissas da simulação
 
@@ -100,7 +100,7 @@ O repositório inclui a rotina [Testes do Simulador Financeiro](.github/workflow
 python -m unittest discover -s tests -v
 ```
 
-Os testes de fumaça em `tests/test_web.py` verificam as rotas principais do Flask e do Dash, os arquivos estáticos, o formulário de despesas, o download de holerite fictício e uma execução do callback financeiro com uma fonte SGS simulada. **O sucesso do workflow deve ser conferido na aba Actions; somente a publicação dos testes não garante que tenham passado.** Os testes não consultam as APIs financeiras reais.
+Os testes de fumaça em `tests/test_web.py` verificam as rotas principais do Flask e do Dash, os arquivos estáticos, o formulário de despesas, o download de holerite fictício e uma execução do callback financeiro com uma fonte SGS simulada. **Primeira validação no GitHub Actions aprovada:** [15 de 15 testes concluídos com sucesso](https://github.com/mateus-mussi/simulador-financeiro-python/actions/runs/44013703245), incluindo testes das rotas Flask e Dash por meio do cliente de teste Flask, geração da planilha fictícia e callback financeiro com dados simulados. Os testes não consultam as APIs financeiras reais e não substituem a navegação manual pela interface.
 
 ## Demonstração visual
 
