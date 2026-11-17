@@ -8,9 +8,11 @@
 - [ ] Revisar tratamento de erros ao consultar dados financeiros externos.
 - [x] Adicionar gerador de planilha inteiramente fictícia (sem publicar dados pessoais).
 - [x] Adicionar e executar três testes locais do módulo de receitas/despesas.
-- [ ] Enviar imagens do site após revisão de direitos de uso.
+- [x] Enviar os cinco recursos visuais da interface e a captura demonstrativa para o GitHub.
+- [ ] Confirmar os direitos de uso e os créditos das imagens publicadas.
 - [ ] Gerar localmente `holerite_modelo.xlsx` antes de executar o aplicativo.
-- [ ] Adicionar capturas reais e atualizadas da aplicação funcionando.
+- [x] Incluir captura demonstrativa da página inicial no README.
+- [ ] Adicionar capturas reais e atualizadas da aplicação em funcionamento, após execução do Flask e Dash.
 - [ ] Não publicar planilhas originais, informações pessoais, credenciais ou imagens sem autorização.
 - [ ] Definir licença apropriada com todos os titulares.
 - [x] Manter o nome definitivo do repositório como `simulador-financeiro-python`.
