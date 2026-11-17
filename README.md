@@ -11,6 +11,10 @@ Projeto acadêmico em equipe que reúne um **simulador de investimentos**, telas
 
 **Desenvolvido em equipe por Amanda Guimarães, Clarice Antezana e Mateus Mussi**, conforme os créditos encontrados no material do projeto. O compartilhamento do código e a escolha de uma licença devem respeitar a autorização dos coautores.
 
+## Status de publicação
+
+> **Código-fonte ainda em transferência:** neste momento o repositório contém a documentação, `requirements.txt` e `.gitignore`. Os arquivos `app.py`, `bd.py`, `templates/` e `static/` precisam ser enviados do pacote preparado para que as instruções abaixo possam ser executadas. Não considere a aplicação publicada ou funcional até concluir esse envio e testá-la.
+
 ## Funcionalidades previstas no projeto
 
 | Módulo | Rota | Descrição |
