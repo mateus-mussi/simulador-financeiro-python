@@ -3,8 +3,9 @@
 - [ ] Confirmar autorização dos coautores para publicar os arquivos e para licenciar o projeto.
 - [x] Publicar os arquivos Python, templates HTML e estilos CSS.
 - [x] Conferir a sintaxe de `app.py` e `bd.py`.
-- [ ] Testar as rotas Flask e o painel Dash em ambiente local.
-- [ ] Validar a lógica de aportes, periodicidade e taxas SELIC/CDI.
+- [ ] Instalar dependências Flask/Dash, python-bcb e yfinance e testar todas as rotas da aplicação.
+- [x] Corrigir a contagem de aportes para independer da frequência de visualização e adicionar teste com dados sintéticos.
+- [ ] Validar a periodicidade e a aplicação das taxas SELIC/CDI, inflação e Bitcoin com dados confiáveis.
 - [ ] Revisar tratamento de erros ao consultar dados financeiros externos.
 - [x] Adicionar gerador de planilha inteiramente fictícia (sem publicar dados pessoais).
 - [x] Adicionar e executar três testes locais do módulo de receitas/despesas.
