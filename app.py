@@ -50,22 +50,25 @@ def DadosInvestimento(CapitalInicial, DataInicio, DataFim, Frequencia, Risco, In
     
     Multiplicador = 1 + (Taxa / 100)
     CapitalAcumulado = pd.Series([CapitalInicial], index=[DataInicio])
+    ContadorAportes = 0
 
     for i in range(1, len(Taxa)):
         if CapitalAcumulado.index[-1] >= DataFim:
             break
         NovoCapital = CapitalAcumulado.iloc[i-1] * (1 + Taxa.iloc[i-1] / 100) + InvestimentoMensal
         CapitalAcumulado = pd.concat([CapitalAcumulado, pd.Series([NovoCapital], index=[CapitalAcumulado.index[-1] + pd.DateOffset(months=1)])])
+        ContadorAportes += 1
 
     if Risco == 'CDI (110%)' and CapitalAcumulado.index[-1] < DataFim:
         UltimaTaxa = Taxa.iloc[-1]
         while CapitalAcumulado.index[-1] < DataFim:
             NovoCapital = CapitalAcumulado.iloc[-1] * (1 + UltimaTaxa / 100) + InvestimentoMensal
             CapitalAcumulado = pd.concat([CapitalAcumulado, pd.Series([NovoCapital], index=[CapitalAcumulado.index[-1] + pd.DateOffset(months=1)])])
+            ContadorAportes += 1
 
     CapitalComFrequenciaEscolhida = CapitalAcumulado.resample(Frequencia).last().dropna()
         
-    TotalInvestido = CapitalInicial + InvestimentoMensal * (len(CapitalComFrequenciaEscolhida) - 1)
+    TotalInvestido = CapitalInicial + InvestimentoMensal * ContadorAportes
     Lucro = CapitalComFrequenciaEscolhida.iloc[-1] - TotalInvestido
 
     return CapitalComFrequenciaEscolhida, TotalInvestido, Lucro
