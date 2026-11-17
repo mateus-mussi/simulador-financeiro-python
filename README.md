@@ -79,7 +79,9 @@ Abra `http://127.0.0.1:5000` e acesse o painel de investimentos em `http://127.0
 python -m unittest discover -s tests -v
 ```
 
-Esses três testes passaram na revisão local. Também foram verificados a sintaxe dos arquivos Python e o mecanismo de criação da planilha fictícia. Não foram executadas todas as rotas Flask/Dash nem validados os cálculos financeiros ou as APIs externas.
+Os três testes de receitas/despesas passaram na revisão local. Também foram verificados a sintaxe dos arquivos Python, a estrutura do modelo fictício de holerite e as referências de arquivos estáticos dos templates. Foi adicionado um teste de regressão com dados sintéticos para impedir que o **total investido varie ao selecionar gráfico mensal ou anual**. Esse teste passou localmente após a correção em `app.py`.
+
+**Limitações restantes:** não foi possível instalar as dependências Flask/Dash, `python-bcb` e `yfinance` neste ambiente para executar a aplicação completa. As rotas web, o consumo de APIs e a exatidão das taxas/periodicidade dos cálculos permanecem sem validação integral.
 
 ## Demonstração visual
 
@@ -113,7 +115,8 @@ simulador-financeiro-python/
 
 - O módulo de gastos é um protótipo sem armazenamento persistente;
 - A geração de holerites é ilustrativa e não tem validade trabalhista;
-- Fórmulas financeiras, cotação de Bitcoin e tratamento de dados externos exigem revisão e testes;
+- Corrigida a contagem de aportes: o total investido não depende mais da frequência de exibição do gráfico (mensal/anual) no caso sintético testado;
+- A conversão e periodicidade das taxas SELIC/CDI, a cotação de Bitcoin, a inflação acumulada e os dados externos **ainda exigem revisão e testes**;
 - O código não deve receber dados pessoais ou financeiros reais sem medidas adicionais de segurança;
 - Imagens pessoais, planilhas reais e credenciais não devem ser publicadas.
 
