@@ -29,7 +29,7 @@ O simulador trabalha com séries de **SELIC, CDI e IPCA** e pode consultar cota�
 
 ![Página inicial do Simulador Financeiro](docs/pagina-inicial.png)
 
-Essa imagem é uma prévia demonstrativa. Para conferir capturas feitas com o aplicativo aberto em um navegador, deixei também os [registros do teste visual](https://github.com/mateus-mussi/simulador-financeiro-python/actions/runs/44014061702).
+Esta é uma prévia da página inicial. Também registrei [capturas reais das cinco telas abertas no navegador](https://github.com/mateus-mussi/simulador-financeiro-python/actions/runs/44014061702).
 
 ## ▶️ Como executar no computador
 
@@ -92,7 +92,7 @@ Também configurei o **GitHub Actions**, que instala as dependências e executa 
 - [Ver os testes do Python, Flask e Dash](https://github.com/mateus-mussi/simulador-financeiro-python/actions/runs/44013703245): **15 testes aprovados**, usando dados financeiros simulados.
 - [Ver a navegação testada no Chromium](https://github.com/mateus-mussi/simulador-financeiro-python/actions/runs/44014061702): as **cinco páginas principais abriram corretamente**, e o navegador gerou capturas de tela.
 
-Esses resultados me ajudam a acompanhar a qualidade do código, mas ainda quero testar os cálculos com **séries históricas reais** e verificar melhor o comportamento das APIs.
+Os testes utilizam dados financeiros simulados; por isso, não comprovam a precisão dos resultados obtidos com APIs reais.
 
 ## 📈 Como funciona a simulação
 
@@ -128,14 +128,6 @@ simulador-financeiro-python/
 └── README.md
 ```
 
-## 🔧 Próximos passos
+## 👥 Desenvolvimento
 
-Quero revisar as respostas das APIs quando não houver dados ou a conexão falhar, conferir a precisão de mais cenários financeiros e melhorar a experiência nas telas. Também pretendo estudar uma maneira de salvar os lançamentos de gastos de forma persistente.
-
-Mantenho uma [lista de tarefas e verificações técnicas](docs/PENDENCIAS.md) para acompanhar esses pontos.
-
-## 👥 Desenvolvimento em equipe
-
-Este projeto foi desenvolvido em grupo por **Amanda Guimarães, Clarice Antezana e Mateus Mussi**.
-
-Quero manter a participação de todos reconhecida. Antes de escolher uma licença aberta, ainda precisamos alinhar essa decisão entre os autores e revisar os materiais de terceiros utilizados no projeto.
+Este projeto começou como um trabalho em grupo com **Amanda Guimarães**, **Clarice Antezana** e comigo, **Mateus Mussi**. Estou reunindo aqui o código e a documentação do que desenvolvemos.
