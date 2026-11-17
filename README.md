@@ -13,7 +13,7 @@ Projeto acadêmico em equipe que reúne um **simulador de investimentos**, telas
 
 ## Status de publicação
 
-> **Código-fonte publicado:** os arquivos `app.py`, `bd.py`, `templates/` e `static/css/` já foram enviados ao GitHub. A sintaxe dos dois arquivos Python foi verificada, mas **a execução completa não foi validada**. Ainda precisam ser enviados os recursos gráficos binários, a planilha fictícia e as capturas, após revisão de direitos de uso e privacidade.
+> **Código-fonte publicado:** os arquivos `app.py`, `bd.py`, `templates/` e `static/css/` já foram enviados ao GitHub. A sintaxe dos dois arquivos Python foi verificada, mas **a execução completa não foi validada**. Ainda precisam ser enviados os recursos gráficos binários e as capturas. O repositório já oferece um **script que gera localmente a planilha fictícia**, sem dados reais. Antes do envio de imagens, revise os direitos de uso.
 
 ## Funcionalidades previstas no projeto
 
@@ -57,16 +57,29 @@ Ou no Linux/macOS:
 source .venv/bin/activate
 ```
 
-Instale as dependências e inicie a aplicação:
+Instale as dependências, gere o **modelo fictício de holerite** e inicie a aplicação:
 
 ```bash
 python -m pip install -r requirements.txt
+python scripts/criar_holerite_modelo.py
 python app.py
 ```
+
+O gerador cria `holerite_modelo.xlsx` na raiz caso ainda não exista; **não substitui planilhas existentes**. Não use dados trabalhistas reais na versão de demonstração.
 
 Abra `http://127.0.0.1:5000` e acesse o painel de investimentos em `http://127.0.0.1:5000/dash/`.
 
 > **Status do desenvolvimento:** o projeto foi revisado parcialmente, mas ainda não passou por teste integral de execução. A simulação de investimentos requer validação das unidades das taxas (SELIC/CDI), periodicidade dos aportes e integração com as APIs, antes de ser utilizada para decisões reais.
+
+## Testes locais
+
+É possível executar três testes do módulo de receitas e despesas **sem consultar APIs externas**:
+
+```bash
+python -m unittest discover -s tests -v
+```
+
+Esses três testes passaram na revisão local. Também foram verificados a sintaxe dos arquivos Python e o mecanismo de criação da planilha fictícia. Não foram executadas todas as rotas Flask/Dash nem validados os cálculos financeiros ou as APIs externas.
 
 ## Demonstração visual
 
@@ -83,6 +96,10 @@ simulador-financeiro-python/
 ├── static/
 │   ├── css/
 │   └── images/       # recursos binários ainda a transferir
+├── scripts/
+│   └── criar_holerite_modelo.py
+├── tests/
+│   └── test_bd.py
 ├── docs/
 ├── .gitignore
 └── README.md
