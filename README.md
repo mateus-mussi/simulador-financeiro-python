@@ -13,7 +13,7 @@ Projeto acadêmico em equipe que reúne um **simulador de investimentos**, telas
 
 ## Status de publicação
 
-> **Código-fonte ainda em transferência:** neste momento o repositório contém a documentação, `requirements.txt` e `.gitignore`. Os arquivos `app.py`, `bd.py`, `templates/` e `static/` precisam ser enviados do pacote preparado para que as instruções abaixo possam ser executadas. Não considere a aplicação publicada ou funcional até concluir esse envio e testá-la.
+> **Código-fonte publicado:** os arquivos `app.py`, `bd.py`, `templates/` e `static/css/` já foram enviados ao GitHub. A sintaxe dos dois arquivos Python foi verificada, mas **a execução completa não foi validada**. Ainda precisam ser enviados os recursos gráficos binários, a planilha fictícia e as capturas, após revisão de direitos de uso e privacidade.
 
 ## Funcionalidades previstas no projeto
 
@@ -70,7 +70,7 @@ Abra `http://127.0.0.1:5000` e acesse o painel de investimentos em `http://127.0
 
 ## Demonstração visual
 
-As capturas devem mostrar a aplicação efetivamente executada. O pacote de preparação inclui uma captura estática da página inicial, que **não comprova o funcionamento das integrações financeiras**. Imagens definitivas serão adicionadas à pasta `docs/` após validação.
+As capturas devem mostrar a aplicação efetivamente executada. O pacote de preparação inclui uma captura estática da página inicial, que **não comprova o funcionamento das integrações financeiras**. As imagens definitivas serão adicionadas à pasta `docs/` após validação. A ausência atual de arquivos de imagem em `static/images/` pode deixar elementos visuais sem carregar.
 
 ## Estrutura do projeto
 
@@ -81,6 +81,8 @@ simulador-financeiro-python/
 ├── requirements.txt
 ├── templates/
 ├── static/
+│   ├── css/
+│   └── images/       # recursos binários ainda a transferir
 ├── docs/
 ├── .gitignore
 └── README.md
