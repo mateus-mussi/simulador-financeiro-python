@@ -1,0 +1,30 @@
+name: Testes do Simulador Financeiro
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  testes:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - name: Obter código
+        uses: actions/checkout@v4
+      - name: Instalar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+      - name: Instalar dependências
+        run: python -m pip install -r requirements.txt
+      - name: Gerar planilha fictícia
+        run: python scripts/criar_holerite_modelo.py
+      - name: Testar aplicação e cálculos (fontes externas simuladas)
+        run: python -m unittest discover -s tests -v
