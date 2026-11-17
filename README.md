@@ -69,7 +69,7 @@ O gerador cria `holerite_modelo.xlsx` na raiz caso ainda não exista; **não sub
 
 Abra `http://127.0.0.1:5000` e acesse o painel de investimentos em `http://127.0.0.1:5000/dash/`.
 
-> **Status do desenvolvimento:** o projeto foi revisado parcialmente, mas ainda não passou por teste integral de execução. A simulação de investimentos requer validação das unidades das taxas (SELIC/CDI), periodicidade dos aportes e integração com as APIs, antes de ser utilizada para decisões reais.
+> **Status do desenvolvimento:** o projeto foi revisado parcialmente, mas ainda não passou por teste integral de execução. A aplicação das séries diárias SELIC/CDI e o ajuste composto por IPCA foram revisados e testados com dados sintéticos. Entretanto, a integração com APIs, os cenários reais e os resultados financeiros ainda exigem validação antes de qualquer uso para decisões de investimento.
 
 ## Testes locais
 
@@ -79,9 +79,18 @@ Abra `http://127.0.0.1:5000` e acesse o painel de investimentos em `http://127.0
 python -m unittest discover -s tests -v
 ```
 
-Os três testes de receitas/despesas passaram na revisão local. Também foram verificados a sintaxe dos arquivos Python, a estrutura do modelo fictício de holerite e as referências de arquivos estáticos dos templates. Foi adicionado um teste de regressão com dados sintéticos para impedir que o **total investido varie ao selecionar gráfico mensal ou anual**. Esse teste passou localmente após a correção em `app.py`.
+Os três testes de receitas/despesas passaram na revisão local. Também foram verificados a sintaxe dos arquivos Python, a estrutura do modelo fictício de holerite e as referências de arquivos estáticos dos templates. Também foram adicionados testes com dados sintéticos para validar a **independência do valor investido em relação à visualização**, a **capitalização das taxas diárias**, os **aportes mensais** e a **composição do IPCA**. O total de 10 testes automatizados locais (3 de despesas, 1 de aportes e 6 financeiros) passou após a correção.
 
 **Limitações restantes:** não foi possível instalar as dependências Flask/Dash, `python-bcb` e `yfinance` neste ambiente para executar a aplicação completa. As rotas web, o consumo de APIs e a exatidão das taxas/periodicidade dos cálculos permanecem sem validação integral.
+
+### Premissas da simulação
+
+- Aportes são realizados nos aniversários mensais da data inicial, após a aplicação da taxa daquele dia.
+- A frequência do gráfico (diária/mensal/anual) modifica a visualização, não a quantidade de aportes.
+- SELIC/CDI são tratados como séries percentuais diárias do Banco Central. A modalidade “Médio (CDB)” é **hipotética**, com multiplicador de 120% do CDI, sem considerar impostos, taxas ou regras de produtos reais.
+- A modalidade Bitcoin utiliza variações das cotações históricas e não inclui custos de negociação.
+- O IPCA é composto a partir das observações mensais disponibilizadas. O saldo final deflacionado é uma aproximação, **não um cálculo de taxa interna de retorno real**.
+- Os dados sintéticos testam a lógica, mas não substituem validação das APIs e dos resultados reais.
 
 ## Demonstração visual
 
@@ -116,7 +125,9 @@ simulador-financeiro-python/
 - O módulo de gastos é um protótipo sem armazenamento persistente;
 - A geração de holerites é ilustrativa e não tem validade trabalhista;
 - Corrigida a contagem de aportes: o total investido não depende mais da frequência de exibição do gráfico (mensal/anual) no caso sintético testado;
-- A conversão e periodicidade das taxas SELIC/CDI, a cotação de Bitcoin, a inflação acumulada e os dados externos **ainda exigem revisão e testes**;
+- SELIC/CDI agora são aplicados como taxas diárias nas datas registradas, e o capital final ajustado pelo IPCA usa a composição das taxas mensais disponíveis. A validação com séries reais e o impacto dos períodos parciais ainda são pendentes;
+- O valor apresentado como **capital final ajustado pelo IPCA** não equivale ao lucro real de uma carteira com aportes periódicos; isso exigiria deflacionar separadamente cada fluxo de caixa;
+- Os retornos de Bitcoin, os dados externos e o comportamento completo do painel **ainda exigem testes**;
 - O código não deve receber dados pessoais ou financeiros reais sem medidas adicionais de segurança;
 - Imagens pessoais, planilhas reais e credenciais não devem ser publicadas.
 
