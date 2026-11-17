@@ -92,6 +92,16 @@ Os três testes de receitas/despesas passaram na revisão local. Também foram v
 - O IPCA é composto a partir das observações mensais disponibilizadas. O saldo final deflacionado é uma aproximação, **não um cálculo de taxa interna de retorno real**.
 - Os dados sintéticos testam a lógica, mas não substituem validação das APIs e dos resultados reais.
 
+## Validação automatizada no GitHub Actions
+
+O repositório inclui a rotina [Testes do Simulador Financeiro](.github/workflows/testes.yml), executada em Python 3.11 a cada publicação no ramo `main` e a cada pull request. A rotina instala as dependências, cria uma planilha didática e executa:
+
+```bash
+python -m unittest discover -s tests -v
+```
+
+Os testes de fumaça em `tests/test_web.py` verificam as rotas principais do Flask e do Dash, os arquivos estáticos, o formulário de despesas, o download de holerite fictício e uma execução do callback financeiro com uma fonte SGS simulada. **O sucesso do workflow deve ser conferido na aba Actions; somente a publicação dos testes não garante que tenham passado.** Os testes não consultam as APIs financeiras reais.
+
 ## Demonstração visual
 
 **Prévia visual da página inicial (captura demonstrativa):**
