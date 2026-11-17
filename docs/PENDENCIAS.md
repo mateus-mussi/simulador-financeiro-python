@@ -1,24 +1,28 @@
-# Pendências para conclusão do portfólio
+# Minha lista de melhorias — Simulador Financeiro
 
-- [ ] Confirmar autorização dos coautores para publicar os arquivos e para licenciar o projeto.
-- [x] Publicar os arquivos Python, templates HTML e estilos CSS.
-- [x] Conferir a sintaxe de `app.py` e `bd.py`.
-- [x] Configurar workflow de testes com instalação das dependências e testes de fumaça Flask/Dash com APIs simuladas.
-- [x] GitHub Actions aprovado: 15 testes, incluindo rotas Flask/Dash com APIs simuladas (execução 44013703245).
-- [x] Executar testes automatizados em Chromium nas cinco telas e arquivar capturas (execução 44014061702).
-- [ ] Realizar inspeção humana das capturas e testar interações completas no navegador.
-- [ ] Testar consultas às APIs financeiras reais e validar os resultados históricos.
-- [x] Corrigir a contagem de aportes para independer da frequência de visualização e adicionar teste com dados sintéticos.
-- [x] Corrigir o uso das séries diárias SELIC/CDI e compor as variações mensais do IPCA, com testes sintéticos.
-- [ ] Validar os cálculos com séries reais, datas parciais, retornos de Bitcoin e rendimentos líquidos.
-- [ ] Revisar tratamento de erros, limites de período e indisponibilidade das APIs externas.
-- [x] Adicionar gerador de planilha inteiramente fictícia (sem publicar dados pessoais).
-- [x] Adicionar e executar três testes locais do módulo de receitas/despesas.
-- [x] Enviar os cinco recursos visuais da interface e a captura demonstrativa para o GitHub.
-- [ ] Confirmar os direitos de uso e os créditos das imagens publicadas.
-- [ ] Gerar localmente `holerite_modelo.xlsx` antes de executar o aplicativo.
-- [x] Incluir captura demonstrativa da página inicial no README.
-- [ ] Adicionar capturas reais e atualizadas da aplicação em funcionamento, após execução do Flask e Dash.
-- [ ] Não publicar planilhas originais, informações pessoais, credenciais ou imagens sem autorização.
-- [ ] Definir licença apropriada com todos os titulares.
-- [x] Manter o nome definitivo do repositório como `simulador-financeiro-python`.
+Uso esta lista para lembrar o que já consegui testar e o que quero melhorar no projeto.
+
+## O que já fiz
+
+- [x] Organizei e publiquei o código Python, as páginas HTML, os estilos e as imagens.
+- [x] Adicionei instruções para instalar e executar o aplicativo.
+- [x] Criei um script para gerar um modelo de holerite com dados fictícios.
+- [x] Corrigi a contagem dos aportes para que a frequência do gráfico não altere o total investido.
+- [x] Ajustei a aplicação de taxas diárias SELIC/CDI e a composição do IPCA, com testes usando dados simulados.
+- [x] Configurei os testes automatizados do Python e da aplicação web no GitHub Actions.
+- [x] Confirmei uma execução com **15 testes aprovados**: [ver resultado](https://github.com/mateus-mussi/simulador-financeiro-python/actions/runs/44013703245).
+- [x] Testei a abertura das cinco páginas em Chromium: [ver capturas do teste](https://github.com/mateus-mussi/simulador-financeiro-python/actions/runs/44014061702).
+- [x] Mantive o nome do repositório como `simulador-financeiro-python`.
+
+## O que quero fazer a seguir
+
+- [ ] Conferir a precisão das simulações com séries financeiras reais e diferentes períodos.
+- [ ] Testar Bitcoin, períodos incompletos, cenários sem dados e falhas de conexão com APIs.
+- [ ] Melhorar as mensagens de erro para quem usar o simulador.
+- [ ] Verificar as interações do formulário e do painel em um navegador, além dos testes de abertura das páginas.
+- [ ] Revisar as capturas para escolher imagens atualizadas para o README.
+- [ ] Pensar em como salvar receitas e despesas de forma permanente.
+- [ ] Conferir os créditos e as permissões das imagens e dos arquivos utilizados.
+- [ ] Conversar com os demais autores sobre a licença de uso do projeto.
+
+Os resultados financeiros ainda são **experimentais**. Meu objetivo é continuar melhorando o aplicativo e documentar as mudanças conforme avanço.
