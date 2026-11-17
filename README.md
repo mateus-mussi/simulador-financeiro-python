@@ -102,6 +102,12 @@ python -m unittest discover -s tests -v
 
 Os testes de fumaça em `tests/test_web.py` verificam as rotas principais do Flask e do Dash, os arquivos estáticos, o formulário de despesas, o download de holerite fictício e uma execução do callback financeiro com uma fonte SGS simulada. **Primeira validação no GitHub Actions aprovada:** [15 de 15 testes concluídos com sucesso](https://github.com/mateus-mussi/simulador-financeiro-python/actions/runs/44013703245), incluindo testes das rotas Flask e Dash por meio do cliente de teste Flask, geração da planilha fictícia e callback financeiro com dados simulados. Os testes não consultam as APIs financeiras reais e não substituem a navegação manual pela interface.
 
+### Teste visual em navegador Chromium
+
+**Validação concluída:** o [GitHub Actions executou com sucesso](https://github.com/mateus-mussi/simulador-financeiro-python/actions/runs/44014061702) um teste visual com a aplicação Flask/Dash iniciada. As páginas `/`, `/dash/`, `/holerite`, `/gastos` e `/monitoramento` responderam HTTP 200 e foram abertas em Chromium; o painel Dash teve seus controles principais reconhecidos.
+
+Foram geradas **cinco capturas reais da aplicação em execução**, disponíveis no [artefato `capturas-simulador`](https://github.com/mateus-mussi/simulador-financeiro-python/actions/runs/44014061702/artifacts/14297293383). Essas imagens foram arquivadas no GitHub Actions, **não** na pasta `docs/` do repositório. O teste visual não aciona consultas a serviços financeiros ao vivo nem valida os cálculos realizados por essas APIs.
+
 ## Demonstração visual
 
 **Prévia visual da página inicial (captura demonstrativa):**
